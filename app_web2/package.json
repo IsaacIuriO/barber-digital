@@ -1,0 +1,22 @@
+{
+  "name": "app_web2",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IsaacIuriO/barber-digital.git"
+  },
+  "author": "Isaac O",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IsaacIuriO/barber-digital/issues"
+  },
+  "homepage": "https://github.com/IsaacIuriO/barber-digital#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
