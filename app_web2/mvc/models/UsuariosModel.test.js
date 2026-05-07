@@ -33,4 +33,4 @@ class Usuario
     
 }
 
-module.exports = Usuario
+const usuario = new Usuario("a@b.com", "123", "Jao")

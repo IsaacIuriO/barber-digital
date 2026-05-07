@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+
+    </head>
+    <body>
+        <h1>Lista de Usuários</h1>
+        <thead>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Senha</th>
+            <th>Ações</th>
+        </thead>
+        <tbody>
+            <% for(usuario of usuarios) {%>
+                <tr>
+                    <td><%= usuario.id %></td>
+                    <td><%= usuario.username %></td>
+                    <td><%= usuario.email %></td>
+                    <td><%= usuario.senha %></td>
+                    <td>
+                        <a href="/user/edit/<%= usuario.id %>">Editar</a>
+                        <button onclick="apagarUsuario('<%= usuario.id %>')" id="btnApagar">Apagar</button>
+                    </td>
+                </tr>
+        </tbody>
+
+        <script>
+            async function apagarUsuario(id)
+            {
+                const url = "user/delete/" + id
+
+                const response = await fetch(url, { method:'DELETE' })
+                
+                const data = await response.json()
+
+                if(response.status != 200) // também pode ser !response.ok
+                {
+                    console.log("Ocorreu um erro na requisição")
+                }
+                console.log(data)
+                location.reload()
+            }
+        </script>
+    </body>
+</html>

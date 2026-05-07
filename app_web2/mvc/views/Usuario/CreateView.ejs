@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Create</title>
+    </head>
+
+    <body>
+        <h1>Cadastro de Usuario</h1>
+        <form>
+            <div>
+                <div>
+                    <label for="username">Username</label>
+                </div>
+                <div>
+                    <input id="username" type="username" name="username"></input>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label for="email">E-mail</label>
+                </div>
+                <div>
+                    <input id="email" type="email" name="email"></input>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label for="senha">Senha</label>
+                </div>
+                <div>
+                    <input id="senha" type="password" name="senha"></input>
+                </div>
+                <div>
+                    <button id="btnCadastrarUsuario" type="submit">Cadastrar</button>
+                </div>
+            </div>
+        </form>
+
+        <script>
+            const btnCadastrarUsuario = document.getElementById("btnCadastrarUsuario")
+            
+            btnCadastrarUsuario.addEventListener("click", cadastrarUsuario)
+
+            async function cadastrarUsuario(e)
+            {
+                e.preventDefault()
+                const username = document.getElementById("username")
+                const email = document.getElementById("email")
+                const senha = document.getElementById("senha")
+
+                const url = "user/create/"
+
+                const response = await fetch(url,
+                    {
+                        method:'POST',
+                        headers:{ 'Content-Type':'application/json' },
+                        body: JSON.stringify(
+                            {
+                                username: username.value,
+                                email: email.value,
+                                senha: senha.value
+                            })
+                    })
+                
+                const data = await response.json()
+
+                if(response.status != 200) // também pode ser response.ok
+                {
+                    console.log("Ocorreu um erro na requisição")
+                }
+                console.log(data)
+            }
+        </script>
+    </body>
+</html>
