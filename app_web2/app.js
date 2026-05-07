@@ -1,4 +1,26 @@
+const sequelize = require('./database/dbconfig');
 const server = require("./server")
 
-server.port = 3000
-server.listen(3000)
+async function run()
+{
+    const port = 3000;
+
+    try
+    {
+        await sequelize.authenticate();
+        console.log('Conexão com o banco realizada com sucesso!');
+
+        await sequelize.authenticate();
+        console.log('Modelos Sincronizados!');
+
+        server.port = port;
+        server.listen();
+    } 
+    
+    catch (error)
+    {
+        console.error('Erro ao iniciar a aplicação...', error);
+    }
+}
+
+run();
