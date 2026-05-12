@@ -17,6 +17,7 @@
   "homepage": "https://github.com/IsaacIuriO/barber-digital#readme",
   "description": "",
   "dependencies": {
+    "bootstrap": "^5.3.8",
     "ejs": "^5.0.2",
     "express": "^5.2.1",
     "mysql2": "^3.22.3",

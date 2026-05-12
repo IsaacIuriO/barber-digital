@@ -4,53 +4,165 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Lista de Usuarios</title>
+        <title>Lista de Usuários</title>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+        <style>
+            *{
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body{
+                font-family: "Rubik", sans-serif;
+                background-color: #F9DC5C;
+            }
+
+            #card{
+                background-color: #F7F3E3;
+                border: none;
+                border-radius: 12px;
+            }
+
+            h1{
+                color: #6F1A07;
+            }
+
+            th{
+                background-color: #6F1A07 !important;
+                color: white !important;
+            }
+
+            td{
+                color: #2B2118;
+                vertical-align: middle;
+            }
+
+            .btn-editar{
+                background-color: #0d6efd;
+                color: white;
+                text-decoration: none;
+                padding: 6px 12px;
+                border-radius: 6px;
+                margin-right: 5px;
+            }
+
+            .btn-editar:hover{
+                background-color: #0b5ed7;
+            }
+
+            .btn-apagar{
+                border: none;
+                padding: 6px 12px;
+                border-radius: 6px;
+                color: white;
+                background-color: #dc3545;
+            }
+
+            .btn-apagar:hover{
+                background-color: #bb2d3b;
+            }
+        </style>
 
     </head>
-    <body>
-        <h1>Lista de Usuários</h1>
 
-        <table>
-            <thead>
-                <th>Id</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Senha</th>
-                <th>Ações</th>
-            </thead>
-            <tbody>
-                <% for(usuario of usuarios) {%>
-                    <tr>
-                        <td><%= usuario.id %></td>
-                        <td><%= usuario.username %></td>
-                        <td><%= usuario.email %></td>
-                        <td><%= usuario.senha %></td>   
-                        <td>
-                            <a href="/user/edit/<%= usuario.id %>">Editar</a>
-                            <button onclick="apagarUsuario('<%= usuario.id %>')" id="btnApagar">Apagar</button>
-                        </td>
-                    </tr>
-                    <% } %>
-                </tbody>
-        </table>
-                
+    <body>
+
+        <div class="container py-5">
+
+            <div class="card shadow p-4" id="card">
+
+                <h1 class="text-center mb-4">Lista de Usuários</h1>
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="text-center">
+                            <tr>
+                                <th>Id</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Senha</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <% for(usuario of usuarios) {%>
+
+                                <tr class="text-center">
+
+                                    <td><%= usuario.id %></td>
+                                    <td><%= usuario.username %></td>
+                                    <td><%= usuario.email %></td>
+                                    <td><%= usuario.senha %></td>
+
+                                    <td>
+
+                                        <a 
+                                            href="/user/edit/<%= usuario.id %>" 
+                                            class="btn-editar"
+                                        >
+                                            Editar
+                                        </a>
+
+                                        <button 
+                                            onclick="apagarUsuario('<%= usuario.id %>')" 
+                                            class="btn-apagar"
+                                        >
+                                            Apagar
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            <% } %>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
         <script>
+
             async function apagarUsuario(id)
             {
                 const url = "/user/delete/" + id;
 
-                const response = await fetch(url, { method:'DELETE' });
-                
+                const response = await fetch(url, 
+                { 
+                    method:'DELETE' 
+                });
+
                 const data = await response.json();
 
-                if(!response.ok) // tpode ser: !response.ok ou response.status != 200
+                if(!response.ok)
                 {
                     console.log("Ocorreu um erro na requisição");
                 }
-                
+
                 console.log(data);
+
                 location.reload();
             }
+
         </script>
+
     </body>
 </html>
