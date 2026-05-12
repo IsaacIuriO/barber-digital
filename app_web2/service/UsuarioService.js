@@ -14,10 +14,20 @@ class UsuarioService
 
     async buscarUsuario(id)
     {
-        return await this.#usuarioSchema.findOne
+        const dado = await this.#usuarioSchema.findOne
         ({
             where:{ id: id }
         });
+
+        if(!dado){
+            return null;
+        }
+
+        const usuario = new Usuario(dado.email, dado.password, dado.username)
+
+        usuario.id = dado.id
+        
+        return usuario;
     }
 
     async deletarUsuario(id)
@@ -34,25 +44,40 @@ class UsuarioService
 
     async buscarTodosUsuarios()
     {
-        return await this.#usuarioSchema.findAll()
+        const usuarios = []
+        const dados = await this.#usuarioSchema.findAll();
+
+        for(const usuario of dados)
+        {
+            const u = new Usuario(
+                    usuario.email,
+                    usuario.password,
+                    usuario.username
+                )
+
+            u.id = usuario.id
+            usuarios.push(u)
+        }
+
+        return usuarios
     }
 
-    async cadastrarUsuario(email, senha, username)
+    async cadastrarUsuario(username, email, senha)
     {
         const usuario = new Usuario(email, senha, username)
         
         const id = await this.#usuarioSchema.create(
             {
-                username: usuario.nome,
                 email: usuario.email,
-                password: usuario.password
+                password: usuario.senha,
+                username: usuario.nome,
             }
         )
 
         return id;
     }
 
-    async atualizarUsuario(id, email, senha, username)
+    async atualizarUsuario(id, username, email, senha)
     {
         let rows = 0;
 
@@ -63,14 +88,14 @@ class UsuarioService
             const model = new Usuario(
                 email || usuario.email,
                 senha || usuario.password,
-                username || usuario.username
+                username || usuario.username,
             )
 
             const affectedRows = await this.#usuarioSchema.update(
                 {
                     username: model.nome,
                     email: model.email,
-                    password: model.senha
+                    password: model.senha,
                 }, 
                 { where: { id: id } }
             )
@@ -78,7 +103,7 @@ class UsuarioService
             rows = affectedRows
         }
         
-        return id, rows;
+        return rows;
     }
 }
 

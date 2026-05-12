@@ -7,15 +7,14 @@ class UsuarioController
         this.usuarioService = new UsuarioService()
     }
 
-    async index(req, res)
+    index(req, res)
     {
-        const usuarios = await this.usuarioService.buscarUsuario(req.params.id)
-        res.render("Usuario/UsuarioView", { usuarios })
+        res.render("Usuario/UsuarioView")
     }
 
     async usuarioListView(req, res)
     {
-        const usuario = await this.usuarioService.buscarTodosUsuarios
+        const usuarios = await this.usuarioService.buscarTodosUsuarios()
         res.render("Usuario/ListView", { usuarios: usuarios })
     }
 
@@ -35,7 +34,7 @@ class UsuarioController
         const id = await this.usuarioService.cadastrarUsuario(
             req.body.username,
             req.body.email,
-            req.body.username
+            req.body.senha
         )
 
         res.json({ id: id })
@@ -47,7 +46,7 @@ class UsuarioController
             req.body.id,
             req.body.username,
             req.body.email,
-            req.body.username
+            req.body.senha
         )
 
         res.json({ affectedRows: affectedRows })

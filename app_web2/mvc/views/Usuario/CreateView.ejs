@@ -15,7 +15,7 @@
                     <label for="username">Username</label>
                 </div>
                 <div>
-                    <input id="username" type="username" name="username"></input>
+                    <input id="username" type="username"></input>
                 </div>
             </div>
             <div>
@@ -23,7 +23,7 @@
                     <label for="email">E-mail</label>
                 </div>
                 <div>
-                    <input id="email" type="email" name="email"></input>
+                    <input id="email" type="email"></input>
                 </div>
             </div>
             <div>
@@ -51,7 +51,7 @@
                 const email = document.getElementById("email")
                 const senha = document.getElementById("senha")
 
-                const url = "user/create/"
+                const url = "/user/create"
 
                 const response = await fetch(url,
                     {
@@ -65,7 +65,7 @@
                             })
                     })
                 
-                const data = await response.json()
+                const data = await response.text()
 
                 if(response.status != 200) // também pode ser response.ok
                 {
