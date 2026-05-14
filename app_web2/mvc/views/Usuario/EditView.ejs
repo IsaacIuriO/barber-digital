@@ -48,38 +48,35 @@
     </head>
 
     <body>
-        <h1>Edição de Usuario</h1>
+        <div class="container vh-100 d-flex justify-content-center align-items-center">
 
-        <input value="<%= usuario.id %>" type="text" id="usuarioId" hidden>
+            <div class="card p-4" id="card">
 
-        <div>
-            <div>
-                <label for="username">Username</label>
-            </div>
-            <div>
-                <input value="<%= usuario.username %>" id="username" type="username" name="username"></input>
-            </div>
-        </div>
-        <div>
-            <div>
-                <label for="email">E-mail</label>
-            </div>
-            <div>
-                <input value="<%= usuario.email %>" id="email" type="email" name="email"></input>
-            </div>
-        </div>
-        <div>
-            <div>
-                <label for="senha">Senha</label>
-            </div>
-            <div>
-                <input id="senha" type="password" name="senha"></input>
-            </div>
-            <div>
-                <button id="btnCadastrarUsuario" type="submit">Cadastrar</button>
-            </div>
-        </div>
+                <div class="mb-3" id="mensagem"></div>
 
+                <h1 class="text-center mb-4">Edição de Usuario</h1>
+
+                <input value="<%= usuario.id %>" type="text" id="usuarioId" hidden>
+
+                <div class="mb-3">
+                    <label class="form-label" for="username">Username</label>
+                    <input class="form-control" value="<%= usuario.nome %>" id="username" type="username" name="username"></input>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="email">E-mail</label>
+                    <input class="form-control" value="<%= usuario.email %>" id="email" type="email" name="email"></input>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="senha">Senha</label>
+                    <input class="form-control" id="senha" type="password" name="senha"></input>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary w-100" id="btnCadastrarUsuario" type="submit">Cadastrar</button>
+                </div>
+
+            </div>
+
+        </div>
 
         <script>
             const btnCadastrarUsuario = document.getElementById("btnCadastrarUsuario")
@@ -114,10 +111,29 @@
                 
                 const data = await response.json()
 
-                if(response.status != 200) // também pode ser response.ok
+                console.log(data)
+
+                if(response.ok)
                 {
-                    console.log("Ocorreu um erro na requisição")
+                    mensagem.innerHTML = `
+                        <div class="alert alert-success">
+                            Usuário cadastrado com sucesso!
+                        </div>
+                    `
+
+                    username.value = ""
+                    email.value = ""
+                    senha.value = ""
                 }
+                else
+                {
+                    mensagem.innerHTML = `
+                        <div class="alert alert-danger">
+                            Erro ao cadastrar usuário!
+                        </div>
+                    `
+                }
+
                 console.log(data)
             }
         </script>

@@ -103,23 +103,16 @@
                                 <tr class="text-center">
 
                                     <td><%= usuario.id %></td>
-                                    <td><%= usuario.username %></td>
+                                    <td><%= usuario.nome %></td>
                                     <td><%= usuario.email %></td>
                                     <td><%= usuario.senha %></td>
-
                                     <td>
 
-                                        <a 
-                                            href="/user/edit/<%= usuario.id %>" 
-                                            class="btn-editar"
-                                        >
+                                        <a href="/user/edit/<%= usuario.id %>" class="btn-editar">
                                             Editar
                                         </a>
 
-                                        <button 
-                                            onclick="apagarUsuario('<%= usuario.id %>')" 
-                                            class="btn-apagar"
-                                        >
+                                        <button onclick="apagarUsuario('<%= usuario.id %>')" class="btn-apagar">
                                             Apagar
                                         </button>
 
