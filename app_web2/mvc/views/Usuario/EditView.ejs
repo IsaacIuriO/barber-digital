@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 
 <html lang="pt-br">
+
     <head>
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Edit</title>
@@ -48,6 +50,7 @@
     </head>
 
     <body>
+
         <div class="container vh-100 d-flex justify-content-center align-items-center">
 
             <div class="card p-4" id="card">
@@ -56,20 +59,23 @@
 
                 <h1 class="text-center mb-4">Edição de Usuario</h1>
 
-                <input value="<%= usuario.id %>" type="text" id="usuarioId" hidden>
+                <input value="<%= usuario.id %>" type="text" id="usuarioId" hidden></input>
 
                 <div class="mb-3">
                     <label class="form-label" for="username">Username</label>
                     <input class="form-control" value="<%= usuario.nome %>" id="username" type="username" name="username"></input>
                 </div>
+
                 <div class="mb-3">
                     <label class="form-label" for="email">E-mail</label>
                     <input class="form-control" value="<%= usuario.email %>" id="email" type="email" name="email"></input>
                 </div>
+
                 <div class="mb-3">
                     <label class="form-label" for="senha">Senha</label>
                     <input class="form-control" id="senha" type="password" name="senha"></input>
                 </div>
+                
                 <div class="mb-3">
                     <button class="btn btn-primary w-100" id="btnCadastrarUsuario" type="submit">Cadastrar</button>
                 </div>
@@ -79,6 +85,7 @@
         </div>
 
         <script>
+
             const btnCadastrarUsuario = document.getElementById("btnCadastrarUsuario")
             
             btnCadastrarUsuario.addEventListener("click", cadastrarUsuario)
@@ -136,6 +143,9 @@
 
                 console.log(data)
             }
+
         </script>
+
     </body>
+
 </html>
