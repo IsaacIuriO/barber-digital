@@ -81,7 +81,7 @@ class UsuarioService
     {
         let rows = 0;
 
-        const usuario = await this.#usuarioSchema.findByPk(id)
+        const usuario = await this.#usuarioSchema.buscarUsuario(id)
 
         if(usuario){
 

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Atendimentos</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Rubik", sans-serif;
+            background-color: #F9DC5C;
+        }
+
+        #card {
+            background-color: #F7F3E3;
+            border: none;
+            border-radius: 12px;
+        }
+
+        h1 {
+            color: #6F1A07;
+        }
+
+        th {
+            background-color: #6F1A07 !important;
+            color: white !important;
+            white-space: nowrap;
+        }
+
+        td {
+            color: #2B2118;
+            vertical-align: middle;
+        }
+
+        .btn-editar {
+            background-color: #0d6efd;
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .btn-editar:hover {
+            background-color: #0b5ed7;
+            color: white;
+        }
+
+        .btn-apagar {
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            color: white;
+            background-color: #dc3545;
+        }
+
+        .btn-apagar:hover {
+            background-color: #bb2d3b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid py-5 px-4">
+
+        <div class="card shadow p-4" id="card">
+
+            <h1 class="text-center mb-4">Lista de Atendimentos</h1>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="text-center">
+                        <tr>
+                            <th>Id</th>
+                            <th>Cliente</th>
+                            <th>Telefone</th>
+                            <th>Data</th>
+                            <th>Horário</th>
+                            <th>Serviço</th>
+                            <th>Profissional</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% for(atendimento of atendimentos) {%>
+
+                            <tr class="text-center">
+                                <td><strong><%= atendimento.id %></strong></td>
+                                <td><%= atendimento.nomeCliente %></td>
+                                <td><%= atendimento.telefone %></td>
+                                <td><%= atendimento.dataAtendimento %></td>
+                                <td><%= atendimento.horarioAtendimento %></td>
+                                <td><%= atendimento.tipoServico %></td>
+                                <td><%= atendimento.profissional %></td>
+                                <td>
+                                    <a href="/atendimento/edit/<%= atendimento.id %>" class="btn-editar">
+                                        Editar
+                                    </a>
+
+                                    <button onclick="apagarAtendimento('<%= atendimento.id %>')" class="btn-apagar">
+                                        Apagar
+                                    </button>
+                                </td>
+                            </tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        
+        async function apagarUsuario(id)
+            {
+                const url = "/user/delete/" + id;
+
+                const response = await fetch(url, 
+                { 
+                    method:'DELETE' 
+                });
+
+                const data = await response.json();
+
+                if(!response.ok)
+                {
+                    console.log("Ocorreu um erro na requisição");
+                }
+
+                console.log(data);
+
+                location.reload();
+            }
+
+    </script>
+
+</body>
+
+</html>
