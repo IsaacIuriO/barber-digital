@@ -2,125 +2,139 @@
 <html lang="pt-br">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Atendimentos</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <title>SGP - Lista de Atendimentos</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin">
+
     <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 
     <style>
-        * {
+
+        *{
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
+        body{
             font-family: "Rubik", sans-serif;
             background-color: #F9DC5C;
         }
 
-        #card {
+        .main-card{
             background-color: #F7F3E3;
             border: none;
             border-radius: 12px;
         }
 
-        h1 {
+        h1{
             color: #6F1A07;
+            font-weight: 700;
         }
 
-        th {
-            background-color: #6F1A07 !important;
-            color: white !important;
-            white-space: nowrap;
-        }
-
-        td {
-            color: #2B2118;
-            vertical-align: middle;
-        }
-
-        .btn-editar {
-            background-color: #0d6efd;
-            color: white;
-            text-decoration: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            display: inline-block;
-            margin-bottom: 5px;
-        }
-
-        .btn-editar:hover {
-            background-color: #0b5ed7;
-            color: white;
-        }
-
-        .btn-apagar {
+        .btn-primary{
+            background-color: #6F1A07;
             border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            color: white;
-            background-color: #dc3545;
         }
 
-        .btn-apagar:hover {
-            background-color: #bb2d3b;
+        table{
+            vertical-align: middle !important;
         }
+
     </style>
+
 </head>
 
 <body>
 
-    <div class="container-fluid py-5 px-4">
+    <div class="container py-5">
 
-        <div class="card shadow p-4" id="card">
+        <div class="card main-card p-4 shadow">
 
-            <h1 class="text-center mb-4">Lista de Atendimentos</h1>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+
+                    <h1>Agenda de Atendimentos</h1>
+
+                    <p class="text-muted mb-0">
+                        Lista completa dos atendimentos cadastrados.
+                    </p>
+
+                </div>
+
+                <a href="/atendimento/create" class="btn btn-primary">
+                    Novo Atendimento
+                </a>
+
+            </div>
 
             <div class="table-responsive">
 
                 <table class="table table-hover align-middle">
 
-                    <thead class="text-center">
+                    <thead>
+
                         <tr>
-                            <th>Id</th>
                             <th>Cliente</th>
-                            <th>Telefone</th>
+                            <th>Contato</th>
                             <th>Data</th>
-                            <th>Horário</th>
+                            <th>Nascimento</th>
                             <th>Serviço</th>
                             <th>Profissional</th>
                             <th>Ações</th>
                         </tr>
+
                     </thead>
 
                     <tbody>
 
-                        <% for(atendimento of atendimentos) {%>
+                        <% for(atendimento of atendimentos) { %>
 
-                            <tr class="text-center">
-                                <td><strong><%= atendimento.id %></strong></td>
-                                <td><%= atendimento.nomeCliente %></td>
-                                <td><%= atendimento.telefone %></td>
-                                <td><%= atendimento.dataAtendimento %></td>
-                                <td><%= atendimento.horarioAtendimento %></td>
-                                <td><%= atendimento.tipoServico %></td>
-                                <td><%= atendimento.profissional %></td>
-                                <td>
-                                    <a href="/atendimento/edit/<%= atendimento.id %>" class="btn-editar">
-                                        Editar
-                                    </a>
+                        <tr>
 
-                                    <button onclick="apagarAtendimento('<%= atendimento.id %>')" class="btn-apagar">
-                                        Apagar
-                                    </button>
-                                </td>
-                            </tr>
+                            <td><%= atendimento.nomeCliente %></td>
+
+                            <td><%= atendimento.telefone %></td>
+
+                            <td>
+                                <%= atendimento.dataAtendimento %>
+                                -
+                                <%= atendimento.horarioAtendimento %>
+                            </td>
+
+                            <td><%= atendimento.dataNascimento %></td>
+
+                            <td><%= atendimento.tipoServico %></td>
+
+                            <td><%= atendimento.profissional %></td>
+
+                            <td class="d-flex gap-2">
+
+                                <a
+                                    href="/atendimento/edit/<%= atendimento.id %>"
+                                    class="btn btn-warning btn-sm"
+                                >
+                                    Editar
+                                </a>
+
+                                <button
+                                    onclick="confirmarExclusao('<%= atendimento.id %>')"
+                                    class="btn btn-danger btn-sm"
+                                >
+                                    Excluir
+                                </button>
+
+                            </td>
+
+                        </tr>
 
                         <% } %>
 
@@ -135,27 +149,39 @@
     </div>
 
     <script>
-        
-        async function apagarUsuario(id)
-            {
-                const url = "/user/delete/" + id;
 
-                const response = await fetch(url, 
-                { 
-                    method:'DELETE' 
+        let atendimentoIdParaApagar = null;
+
+        function confirmarExclusao(id){
+
+            atendimentoIdParaApagar = id;
+
+            const confirmar = confirm("Deseja realmente excluir este atendimento?");
+
+            if(confirmar){
+                deletar();
+            }
+
+        }
+
+        async function deletar(){
+
+            try{
+
+                const response = await fetch("/atendimento/delete/" + atendimentoIdParaApagar, {
+                    method: 'DELETE'
                 });
 
-                const data = await response.json();
-
-                if(!response.ok)
-                {
-                    console.log("Ocorreu um erro na requisição");
+                if(response.ok){
+                    location.reload();
                 }
 
-                console.log(data);
-
-                location.reload();
             }
+            catch(err){
+                console.error(err);
+            }
+
+        }
 
     </script>
 
