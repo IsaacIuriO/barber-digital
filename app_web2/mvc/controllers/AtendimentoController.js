@@ -12,20 +12,20 @@ class AtendimentoController
     async atendimentoListView(req, res)
     {
         const atendimentos = await this.atendimentoService.buscarTodosAtendimentos()
-        res.render("Atendimento/ListView", { atendimentos: atendimentos })
+        res.render("Atendimento2/ListView", { atendimentos: atendimentos })
     }
 
     async atendimentoCreateView(req, res)
     {
         const usuarios = await this.usuarioService.buscarTodosUsuarios()
-        res.render("Atendimento/CreateView", { usuarios: usuarios })
+        res.render("Atendimento2/CreateView", { usuarios: usuarios })
     }
 
     async atendimentoEditView(req, res)
     {
         const atendimento = await this.atendimentoService.buscarAtendimento(req.params.id)
         const usuarios = await this.usuarioService.buscarTodosUsuarios()
-        res.render("Atendimento/EditView", { atendimento: atendimento, usuarios: usuarios })
+        res.render("Atendimento2/EditView", { atendimento: atendimento, usuarios: usuarios })
     }
 
     async atendimentoPostAsync(req, res)

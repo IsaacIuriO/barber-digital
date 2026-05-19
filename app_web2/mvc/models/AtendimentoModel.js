@@ -1,3 +1,5 @@
+const moment = require("moment")
+
 class Atendimento
 {
     #id
@@ -37,6 +39,61 @@ class Atendimento
     set tipoServico (valor){ this.#tipoServico = valor; }
     set profissional (valor){ this.#profissional = valor; }
 
-}
+    validarConflitoHorario(horarioInformado, horarioPersistido)
+    {
+        let validacao = false
+        let diffData = 0;
 
+        if(!horarioPersistido) return !validacao
+
+
+        if(horarioInformado)
+        {
+            if(horarioInformado == horarioPersistido)
+            {
+                return validacao
+            }
+
+            const inicio = moment(horarioInformado, "HH:mm")
+            const fim = moment(horarioPersistido, "HH:mm")
+           
+            diffData = fim.diff(inicio,"minute")
+
+            if(this.#tipoServico == "Corte de caabelo")
+            {
+
+                if(diffData > 40)
+                {
+                    validacao = true
+                }
+
+            }
+            else if(this.#tipoServico == "Barba")
+            {
+                if(diffData > 20)
+                {
+                    validacao = true
+                }
+            }
+            else if(this.#tipoServico == "Sobrancelha")
+            {
+                if(diffData > 10)
+                {
+                    validacao = true
+                }
+            }
+            else{
+                if(diffData > 40)
+                {
+                    validacao = true
+                }
+            }
+
+        }
+
+        return validacao;
+    }
+
+
+}
 module.exports = Atendimento
